@@ -4,8 +4,9 @@
 (function () {
   const IAR = window.__IAR__;
 
-  // ponytail: English-UI strings. Other languages → add the translated phrases here.
-  const FEED_NEEDLES = ["Suggested for you", "Suggested Posts", "Suggested posts", "Sponsored"];
+  // Junk-post labels. Verified live: ads read "Ad" (NOT "Sponsored"), and
+  // in-feed recommendations read "Suggested for you". ponytail: English-UI strings.
+  const JUNK_LABELS = ["Ad", "Sponsored", "Paid partnership", "Suggested for you", "Suggested post", "Suggested posts", "Suggested Posts"];
 
   // --- 1. Classify the current page for the CSS in instagram.css ------------
   // We deliberately do NOT redirect home to ?variant=following: that
@@ -26,17 +27,60 @@
   // --- 2. Continuously hide leaked units and pin the reels player -----------
   IAR.onTick(() => {
     const page = document.documentElement.dataset.iarPage;
-    if (page === "home") IAR.hideByText(document.querySelectorAll("article"), FEED_NEEDLES);
+    if (page === "home") { hideJunkPosts(); hideSuggestedSection(); }
     hideSuggestedAccounts();
     if (page === "explore") hideExploreGrid();
     pinReels();
   });
 
+  // Hide ad / suggested / sponsored feed posts. Each carries a short EXACT label
+  // in its top row ("Ad", "Sponsored", "Suggested for you", …). Match exactly —
+  // never as a prefix, since "Ad" would otherwise catch usernames — and only in
+  // the header region (top ~130px), skipping profile links.
+  function hideJunkPosts() {
+    for (const a of document.querySelectorAll("article")) {
+      if (a.getAttribute("data-iar-hidden") === "1") continue;
+      const top = a.getBoundingClientRect().top;
+      for (const n of a.querySelectorAll("span, div")) {
+        const t = (n.textContent || "").trim();
+        if (!JUNK_LABELS.includes(t)) continue;
+        if (n.closest("a")) continue;
+        if (n.getBoundingClientRect().top - top > 130) continue;
+        a.setAttribute("data-iar-hidden", "1");
+        break;
+      }
+    }
+  }
+
+  // Below "You're all caught up", Instagram appends an infinite "Suggested Posts"
+  // section whose posts carry NO per-post label — the only marker is the divider.
+  // Hide the divider and every post after it (document order). The divider is
+  // cached once found so we don't rescan the DOM every tick.
+  // ponytail: English divider text; add locale variants if needed.
+  function hideSuggestedSection() {
+    let divider = document.querySelector('[data-iar-divider="1"]');
+    if (!divider) {
+      divider = [...document.querySelectorAll("span, div")].find((n) => {
+        const t = (n.textContent || "").trim();
+        return t === "Suggested Posts" || t === "Suggested posts";
+      });
+      if (!divider) return;
+      divider.setAttribute("data-iar-divider", "1");
+      divider.setAttribute("data-iar-hidden", "1");
+    }
+    for (const a of document.querySelectorAll("article")) {
+      if (a.getAttribute("data-iar-hidden") === "1") continue;
+      if (divider.compareDocumentPosition(a) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        a.setAttribute("data-iar-hidden", "1");
+      }
+    }
+  }
+
   // Hide the "Suggested for you" accounts module wherever it appears (home right
   // rail, profile carousels). Walk up from the header while the block still
   // starts with the label — that grabs the whole module and stops before the
   // neighbouring profile card. Feed "Suggested" POSTS live inside <article> and
-  // are handled by hideByText, so those headers are skipped.
+  // are handled by hideJunkPosts, so those in-article headers are skipped.
   function hideSuggestedAccounts() {
     for (const h of document.querySelectorAll("span, h2, h3, h4")) {
       if ((h.textContent || "").trim() !== "Suggested for you") continue;

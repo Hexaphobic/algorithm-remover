@@ -47,29 +47,6 @@
     run();
   };
 
-  // Hide feed units that carry a needle as a SHORT, standalone label (e.g. a
-  // "Sponsored" / "Suggested for you" header) — never a needle merely buried in
-  // a friend's caption or comment, which would wrongly hide a wanted post.
-  // Collapsed, not removed: removing nodes confuses Meta's virtualized scroller.
-  IAR.hideByText = function (units, needles) {
-    for (const el of units) {
-      if (el.getAttribute("data-iar-hidden") === "1") continue;
-      if (hasLabel(el, needles)) el.setAttribute("data-iar-hidden", "1");
-    }
-  };
-  function hasLabel(unit, needles) {
-    for (const n of unit.querySelectorAll("span, a, h1, h2, h3, h4, div")) {
-      const t = (n.textContent || "").trim();
-      if (!t) continue;
-      for (const needle of needles) {
-        // Short element that starts with the label ⇒ it's the label itself,
-        // not prose that happens to contain the word.
-        if (t.length <= needle.length + 6 && t.startsWith(needle)) return true;
-      }
-    }
-    return false;
-  }
-
   // Enforce a non-algorithmic home URL. Returns true if it triggered a redirect
   // (caller should stop). hasParam=true means we're already on the good view →
   // clear the counter and do nothing. A sessionStorage loop-breaker (max 3
