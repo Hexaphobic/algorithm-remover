@@ -67,10 +67,11 @@ Firefox only runs signed add-ons on the release build, and this needs
 
 ## The toolbar button
 
-Click the extension's icon for a small popup with:
-- an **on/off switch** — flip it off and both sites behave completely normally
-  again (the current tab reloads to apply); flip it back on any time; and
-- an **About** link straight to this repository.
+Click the extension's icon for a small **About** card linking to this repository.
+
+There's no custom on/off control — and no `storage` (or any other) permission is
+requested. To pause it, just switch the extension off in your browser's
+Extensions menu (the puzzle-piece icon → Manage); flip it back on any time.
 
 ## How it works
 
@@ -118,10 +119,10 @@ list of strings or a selector, never a rewrite.
 | File | Purpose |
 |------|---------|
 | `manifest.json` | MV3 manifest — content scripts + popup, no background script |
-| `common.js` | Shared helpers: SPA-nav watcher, redirect enforcer, hide helpers, on/off gate |
+| `common.js` | Shared helpers: SPA-nav watcher, redirect enforcer, hide helpers |
 | `instagram.js` / `instagram.css` | Instagram behavior |
 | `facebook.js` / `facebook.css` | Facebook behavior |
-| `popup.html` / `popup.js` | Toolbar popup (on/off switch + About link) |
+| `popup.html` | Toolbar About popup (links to this repo) |
 | `icons/` | Toolbar icons |
 
 ## License

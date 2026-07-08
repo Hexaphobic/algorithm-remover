@@ -9,7 +9,6 @@
       "strict_min_version": "127.0"
     }
   },
-  "permissions": ["storage"],
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

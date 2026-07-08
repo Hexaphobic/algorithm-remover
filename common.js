@@ -88,17 +88,4 @@
     location.replace(targetUrl);
     return true;
   };
-
-  // Run cb() only while the extension is switched ON (the popup toggle, stored
-  // in chrome.storage.local, default on). If storage is unavailable, default to
-  // on so the extension never silently dies. The read is async but resolves in a
-  // millisecond or two at document_start — fast enough that the home redirect
-  // still beats the algorithmic feed rendering.
-  IAR.ifEnabled = function (cb) {
-    try {
-      chrome.storage.local.get({ enabled: true }, function (d) { if (!d || d.enabled) cb(); });
-    } catch (e) {
-      cb();
-    }
-  };
 })();

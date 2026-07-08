@@ -3,25 +3,17 @@
 <head>
 <meta charset="utf-8">
 <style>
-  body { width: 264px; margin: 0; background: #101014; color: #f2f2f5;
+  body { width: 268px; margin: 0; background: #101014; color: #f2f2f5;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  .head { display: flex; align-items: center; gap: 11px; padding: 16px 16px 13px; }
+  .head { display: flex; align-items: center; gap: 11px; padding: 16px 16px 12px; }
   .head img { width: 34px; height: 34px; border-radius: 8px; }
   .head h1 { font-size: 15px; margin: 0; font-weight: 650; letter-spacing: .2px; }
   .head p { margin: 3px 0 0; font-size: 11px; color: #9a9aa5; }
-  .row { display: flex; align-items: center; justify-content: space-between;
-    padding: 13px 16px; border-top: 1px solid #232329; }
-  .row .label { font-size: 13px; font-weight: 550; }
-  .status { font-size: 11px; color: #9a9aa5; margin-top: 3px; }
-  .switch { position: relative; width: 44px; height: 26px; flex: none; }
-  .switch input { opacity: 0; width: 0; height: 0; }
-  .track { position: absolute; inset: 0; background: #3a3a42; border-radius: 13px; transition: .15s; }
-  .track::before { content: ""; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px;
-    background: #fff; border-radius: 50%; transition: .15s; }
-  input:checked + .track { background: linear-gradient(90deg, #7A3AE0, #F0286B); }
-  input:checked + .track::before { transform: translateX(18px); }
-  a.gh { display: block; text-align: center; padding: 12px 16px; border-top: 1px solid #232329;
-    color: #c9b8ff; text-decoration: none; font-size: 12px; }
+  .body { padding: 0 16px 14px; font-size: 12.5px; line-height: 1.5; color: #cfcfd6; }
+  .hint { padding: 11px 16px; margin: 0 0 2px; font-size: 11.5px; line-height: 1.45;
+    color: #9a9aa5; border-top: 1px solid #232329; border-bottom: 1px solid #232329; }
+  a.gh { display: block; text-align: center; padding: 12px 16px; color: #c9b8ff;
+    text-decoration: none; font-size: 12px; }
   a.gh:hover { color: #fff; }
 </style>
 </head>
@@ -33,17 +25,8 @@
       <p>Instagram &amp; Facebook</p>
     </div>
   </div>
-  <div class="row">
-    <div>
-      <div class="label">Enabled</div>
-      <div class="status" id="status">Blocking algorithmic feeds</div>
-    </div>
-    <label class="switch">
-      <input type="checkbox" id="toggle">
-      <span class="track"></span>
-    </label>
-  </div>
+  <div class="body">Friends' posts, stories, DMs, and search — without the ranked feed, Explore grid, Reels doomscroll, or suggested accounts.</div>
+  <div class="hint">To pause it, switch it off in your browser's Extensions menu (the puzzle-piece icon → Manage).</div>
   <a class="gh" href="https://github.com/Hexaphobic/algorithm-remover" target="_blank" rel="noopener">ⓘ&nbsp;&nbsp;About &amp; source on GitHub&nbsp;→</a>
-  <script src="popup.js"></script>
 </body>
 </html>
