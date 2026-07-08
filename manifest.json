@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Algorithm Remover — Instagram & Facebook",
+  "version": "1.0.0",
+  "description": "Keeps friends' posts, stories, DMs and search. Removes the algorithmic feed, the Explore grid, and Reels infinite-scroll on Instagram and Facebook.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{67d0d3ae-4249-40b1-be25-b28d36183e2c}",
+      "strict_min_version": "127.0"
+    }
+  },
+  "permissions": ["storage"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Algorithm Remover",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.instagram.com/*"],
+      "js": ["common.js", "instagram.js"],
+      "css": ["instagram.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://www.facebook.com/*", "*://web.facebook.com/*"],
+      "js": ["common.js", "facebook.js"],
+      "css": ["facebook.css"],
+      "run_at": "document_start"
+    }
+  ]
+}

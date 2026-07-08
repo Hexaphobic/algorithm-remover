@@ -1,0 +1,22 @@
+/* Hidden feed units: collapsed, not removed, so Facebook's virtualized feed
+   doesn't react by fetching replacements. */
+[data-iar-hidden="1"] {
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Left-nav entry points to algorithmic video surfaces. Matched by href
+   (locale-independent); Marketplace, Groups, Events, Messenger are untouched. */
+[role="navigation"] a[href^="/watch"],
+[role="navigation"] a[href*="/watch/"],
+[role="navigation"] a[href^="/reel"],
+[role="navigation"] a[href*="/reel/"],
+[role="navigation"] a[href^="/gaming"],
+[role="navigation"] a[href*="/gaming"] {
+  display: none !important;
+}

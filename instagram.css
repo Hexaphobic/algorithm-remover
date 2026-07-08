@@ -1,0 +1,35 @@
+/* Hidden feed units: collapsed, not display:none, so the infinite scroller
+   still counts them (removing them makes it fetch more suggested content). */
+[data-iar-hidden="1"] {
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Reels: remove the nav button so you never land there out of habit. */
+a[href="/reels/"],
+a[href^="/reels/?"] {
+  display: none !important;
+}
+
+/* Explore (the /explore/ page only): hide the media tiles instantly to avoid a
+   flash of grid; instagram.js then collapses the whole grid container. The
+   in-page search bar and its account results stay visible and usable. */
+html[data-iar-page="explore"] main a[href*="/p/"],
+html[data-iar-page="explore"] main a[href*="/reel/"],
+html[data-iar-page="explore"] main a[href*="/tv/"] {
+  visibility: hidden !important;
+}
+
+/* Hide the Reels next/previous chevron buttons. Labels verified live: the
+   aria-label sits on the button itself ("Navigate to next/previous Reel"),
+   matched case-insensitively and by substring so minor wording changes still
+   catch. The scroll/swipe/key blocking in instagram.js is the redundant backup. */
+html[data-iar-page="reels"] [aria-label*="next Reel" i],
+html[data-iar-page="reels"] [aria-label*="previous Reel" i] {
+  display: none !important;
+}
