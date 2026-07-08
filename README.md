@@ -23,8 +23,10 @@ build step, no dependencies: just a handful of content scripts.
 ## What it does
 
 ### Instagram
-- **Home feed** → redirected to Instagram's own chronological **Following** feed
-  (`?variant=following`). Any "Suggested"/"Sponsored" post that slips in is hidden.
+- **Home feed** → suggested and sponsored posts are hidden, so what's left is the
+  accounts you follow. Your **stories tray stays** — Instagram's web has no
+  chronological view that also keeps stories, so we leave the normal feed in
+  place (Instagram's own ordering) rather than lose them.
 - **Suggested accounts** → the right-rail "Suggested for you" **accounts** block
   (and the same carousel on profiles) is removed.
 - **Explore** → the endless media grid is removed, leaving just the search bar.
@@ -78,11 +80,12 @@ Extensions menu (the puzzle-piece icon → Manage); flip it back on any time.
 Three layers, laziest first — and crucially, **it never relies on Meta's
 scrambled CSS class names**:
 
-1. **Redirect** the home feed to Meta's *own* non-algorithmic views
-   (Instagram's Following feed, Facebook's chronological Feeds). Most robust,
-   because Meta maintains those for us.
-2. **Hide** leftover junk by page structure, element role, `href`, and short
-   visible labels — the hooks that survive Meta's churn.
+1. **Redirect** Facebook's home to its *own* chronological Feeds view — robust,
+   because Meta maintains it. (Instagram's equivalent chronological view drops the
+   stories tray, so there we keep the normal feed and lean on step 2 instead.)
+2. **Hide** the junk by page structure, element role, `href`, and short visible
+   labels — the hooks that survive Meta's churn. On Instagram this is the main
+   mechanism: suggested/sponsored posts and suggested accounts are removed.
 3. **Block** Reels advancement by intercepting scroll / swipe / key events, which
    works no matter how the DOM is shaped.
 

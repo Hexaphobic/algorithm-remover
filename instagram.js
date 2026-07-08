@@ -7,16 +7,11 @@
   // ponytail: English-UI strings. Other languages → add the translated phrases here.
   const FEED_NEEDLES = ["Suggested for you", "Suggested Posts", "Suggested posts", "Sponsored"];
 
-  // --- 1. Redirect the algorithmic home feed to the Following feed ----------
-  const HOME_URL = "https://www.instagram.com/?variant=following";
-  const onFollowing = () => new URLSearchParams(location.search).get("variant") === "following";
-
-  // Fires at document_start, before the For You feed renders. Also re-applied on
-  // soft in-app navigation to Home (below), because clicking the Home icon does
-  // a pushState that drops the variant and would otherwise show For You.
-  if (location.pathname === "/" && IAR.enforceHome(HOME_URL, onFollowing())) return;
-
-  // --- 2. Classify the current page for the CSS in instagram.css ------------
+  // --- 1. Classify the current page for the CSS in instagram.css ------------
+  // We deliberately do NOT redirect home to ?variant=following: that
+  // chronological view drops the stories tray. We keep the normal home feed
+  // (stories intact) and hide the suggested/sponsored posts + suggested accounts
+  // below, so it stays friends-only — just not strictly newest-first.
   function classify() {
     const p = location.pathname;
     if (p === "/") return "home";
@@ -26,12 +21,9 @@
     if (p.startsWith("/reels/") || p.startsWith("/reel/")) return "reels";
     return "other";
   }
-  IAR.onUrlChange(() => {
-    IAR.setPage(classify());
-    if (location.pathname === "/") IAR.enforceHome(HOME_URL, onFollowing());
-  });
+  IAR.onUrlChange(() => IAR.setPage(classify()));
 
-  // --- 3. Continuously hide leaked units and pin the reels player -----------
+  // --- 2. Continuously hide leaked units and pin the reels player -----------
   IAR.onTick(() => {
     const page = document.documentElement.dataset.iarPage;
     if (page === "home") IAR.hideByText(document.querySelectorAll("article"), FEED_NEEDLES);
@@ -92,7 +84,7 @@
     }
   }
 
-  // --- 4. Block Reels advancement: scroll, swipe, keyboard ------------------
+  // --- 3. Block Reels advancement: scroll, swipe, keyboard ------------------
   // Selector-free and therefore robust to Meta's DOM churn — every advance
   // vector funnels through these events. Interactions inside a dialog / text
   // field (e.g. the comments panel) are left alone so they still scroll & type.
