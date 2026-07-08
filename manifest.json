@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Algorithm Remover — Instagram & Facebook",
   "version": "1.0.0",
-  "description": "Keeps friends' posts, stories, DMs and search. Removes the algorithmic feed, the Explore grid, and Reels infinite-scroll on Instagram and Facebook.",
+  "description": "Keep friends' posts, stories, DMs and search. Remove the ranked feed, Explore grid and Reels scroll on Instagram & Facebook.",
   "browser_specific_settings": {
     "gecko": {
       "id": "{67d0d3ae-4249-40b1-be25-b28d36183e2c}",
